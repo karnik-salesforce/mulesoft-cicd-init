@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
     <http:listener-config name="sw-customers-sapi-raml-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
-    <apikit:config name="sw-customers-sapi-raml-config" api="resource::afc8c2d9-9c76-4829-9129-4dc50f888e95:sw-customers-sapi-raml:1.0.0:raml:zip:sw-customers-sapi-raml.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="sw-customers-sapi-raml-config" api="api/sw-customers-sapi-raml.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <db:config name="Database_Config" doc:name="Database Config" doc:id="187aa373-4908-4292-bf19-7b4d85eb1327" >
 		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${secure::db.password}" database="${db.database}" />
 	</db:config>

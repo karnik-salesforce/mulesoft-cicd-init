@@ -1,0 +1,109 @@
+#%RAML 1.0
+title: SW Customers SAPI
+version: v1
+baseUri: /api
+
+/customers:
+  get:
+    displayName: Get Customers
+    description: Retrieve all customers
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              [
+                {
+                  "id": 1,
+                  "name": "John Doe",
+                  "email": "john.doe@example.com"
+                }
+              ]
+  post:
+    displayName: Create Customer
+    description: Create a new customer
+    body:
+      application/json:
+        example: |
+          {
+            "name": "John Doe",
+            "email": "john.doe@example.com"
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+              {
+                "message": "Customer created successfully"
+              }
+      409:
+        body:
+          application/json:
+            example: |
+              {
+                "statusCode": "409",
+                "message": "A Customer with same email/phone already exists"
+              }
+
+  /{id}:
+    get:
+      displayName: Get Customer by ID
+      description: Retrieve a specific customer by ID
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id": 1,
+                  "name": "John Doe",
+                  "email": "john.doe@example.com"
+                }
+        404:
+          body:
+            application/json:
+              example: |
+                {
+                  "message": "Resource not found"
+                }
+    put:
+      displayName: Update Customer
+      description: Update an existing customer
+      body:
+        application/json:
+          example: |
+            {
+              "name": "John Doe Updated",
+              "email": "john.updated@example.com"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "message": "Customer updated successfully"
+                }
+
+    /addresses:
+      post:
+        displayName: Add Customer Address
+        description: Add an address to a customer
+        body:
+          application/json:
+            example: |
+              {
+                "street": "123 Main St",
+                "city": "Anytown",
+                "state": "CA",
+                "zipCode": "12345"
+              }
+        responses:
+          201:
+            body:
+              application/json:
+                example: |
+                  {
+                    "message": "Address added successfully"
+                  }
