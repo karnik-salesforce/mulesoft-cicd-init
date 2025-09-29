@@ -10,8 +10,24 @@ jobs:
   test-build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout this repo
+      - name: Checkout sw-customers-sapi
         uses: actions/checkout@v4
+        with:
+          path: sw-customers-sapi
+
+      - name: Checkout parent-pom
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/parent-pom
+          path: parent-pom
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout master-bom  
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/master-bom
+          path: master-bom
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -31,6 +47,7 @@ jobs:
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           KEY: ${{ secrets.decryption_key }}
+        working-directory: sw-customers-sapi
         run: |
           mvn test --settings .maven/settings.xml \
           -Dsecure.key="$KEY" \
@@ -42,13 +59,14 @@ jobs:
         if: always()
         with:
           name: munit-test-reports
-          path: target/site/munit/coverage/
+          path: sw-customers-sapi/target/site/munit/coverage/
 
       - name: Build Application
         env:
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           KEY: ${{ secrets.decryption_key }}
+        working-directory: sw-customers-sapi
         run: |
           mvn clean package --settings .maven/settings.xml -DskipMunitTests \
           -Dsecure.key="$KEY" \
@@ -56,6 +74,7 @@ jobs:
           -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
 
       - name: Stamp artifact file name with commit hash
+        working-directory: sw-customers-sapi
         run: |
           artifactName1=$(ls target/*.jar | head -1)
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
@@ -67,7 +86,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: target/*.jar
+          path: sw-customers-sapi/target/*.jar
       
       - name: Publish to Exchange
         if: github.ref == 'refs/heads/main'
@@ -75,6 +94,7 @@ jobs:
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           KEY: ${{ secrets.decryption_key }}
+        working-directory: sw-customers-sapi
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests \
           -Dsecure.key="$KEY" \
@@ -87,6 +107,7 @@ jobs:
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           KEY: ${{ secrets.decryption_key }}
+        working-directory: sw-customers-sapi
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
           -Dsecure.key="$KEY" \
