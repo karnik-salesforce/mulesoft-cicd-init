@@ -4,7 +4,7 @@
 
 	<groupId>afc8c2d9-9c76-4829-9129-4dc50f888e95</groupId>
 	<artifactId>sw-customers-sapi</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.7</version>
 	<packaging>mule-application</packaging>
 	<name>sw-customers-sapi</name>
 
@@ -45,9 +45,19 @@
 					</execution>
 				</executions>
 				<configuration>
+					<environmentVariables>
+						<key>
+							${decryption.key}
+						</key>
+					</environmentVariables>
 					<coverage>
 						<runCoverage>true</runCoverage>
+						<failBuild>true</failBuild>
+						<requiredApplicationCoverage>5</requiredApplicationCoverage>
 						<formats>
+							<format>console</format>
+							<format>sonar</format>
+							<format>json</format>
 							<format>html</format>
 						</formats>
 					</coverage>
