@@ -39,11 +39,9 @@
 					<target>Cloudhub-US-East-2</target>
 					<muleVersion>${app.runtime}</muleVersion>
 					<server>my-connected-app</server>
-					<!-- Start: CONNECTED APP -->
-					<connectedAppClientId>${client.id}</connectedAppClientId>
-					<connectedAppClientSecret>${client.secret}</connectedAppClientSecret>
-					<connectedAppGrantType>client_credentials</connectedAppGrantType>
-					<!-- End: CONNECTED APP -->
+					<!-- Using traditional username/password authentication -->
+					<username>${anypoint.username}</username>
+					<password>${anypoint.password}</password>
 					<applicationName>${project.artifactId}</applicationName>
 					<vCores>0.1</vCores>
 					<replicas>1</replicas>
