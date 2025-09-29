@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>afc8c2d9-9c76-4829-9129-4dc50f888e95</groupId>
+	<artifactId>parent-pom</artifactId>
+	<version>1.0.5</version>
+	<packaging>pom</packaging>
+	<name>parent-pom</name>
+	<parent>
+		<groupId>afc8c2d9-9c76-4829-9129-4dc50f888e95</groupId>
+		<artifactId>master-bom</artifactId>
+		<version>1.0.4</version>
+		<relativePath>../master-bom/pom.xml</relativePath>
+	</parent>
+	<properties>
+		<type>custom</type>
+	</properties>
+
+	<build>
+	<pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+			<extensions>true</extensions>
+			<configuration>
+				<cloudhub2Deployment>
+					<uri>https://anypoint.mulesoft.com</uri>
+					<provider>MC</provider>
+					<environment>Sandbox</environment>
+					<target>Cloudhub-US-East-2</target>
+					<muleVersion>${app.runtime}</muleVersion>
+					<server>my-connected-app</server>
+					<!-- Start: CONNECTED APP -->
+					<connectedAppClientId>${client.id}</connectedAppClientId>
+					<connectedAppClientSecret>${client.secret}</connectedAppClientSecret>
+					<connectedAppGrantType>client_credentials</connectedAppGrantType>
+					<!-- End: CONNECTED APP -->
+					<applicationName>${project.artifactId}</applicationName>
+					<vCores>0.1</vCores>
+					<replicas>1</replicas>
+					<releaseChannel>LTS</releaseChannel>
+					<deploymentSettings>
+						<generateDefaultPublicUrl>true</generateDefaultPublicUrl>
+					</deploymentSettings>
+					<javaVersion>17</javaVersion>
+					<properties>
+						<secure.key>${decryption.key}</secure.key>
+					</properties>
+				</cloudhub2Deployment>
+				<classifier>mule-application</classifier>
+				<sharedLibraries>
+					<sharedLibrary>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+					</sharedLibrary>
+				</sharedLibraries>
+			</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>exchange-mule-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>exchange-pre-deploy</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>exchange-deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</pluginManagement>
+	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<layout>default</layout>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+</project>

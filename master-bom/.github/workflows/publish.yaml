@@ -1,0 +1,35 @@
+name: Publish Master BOM to Exchange
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    
+jobs:         
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master-bom
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: 17
+      
+      - name: Publish Master BOM to Exchange
+        env:
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+        run: |
+          mvn deploy --settings .maven/settings.xml \
+          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
+          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
