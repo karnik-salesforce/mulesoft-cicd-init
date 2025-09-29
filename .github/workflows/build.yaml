@@ -71,18 +71,19 @@ jobs:
           name: artifacts
           path: target/*.jar
       
-      - name: Publish to Exchange
-        if: github.ref == 'refs/heads/main'
-        env:
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          KEY: ${{ secrets.decryption_key }}
-        run: |
-          mvn deploy --settings .maven/settings.xml -DskipMunitTests \
-          -Dsecure.key="$KEY" \
-          -Dmule.env=dev \
-          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
-          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
+      # Temporarily skip Exchange publishing - uncomment when Connected App is configured
+      # - name: Publish to Exchange
+      #   if: github.ref == 'refs/heads/main'
+      #   env:
+      #     nexus_username: ${{ secrets.nexus_username }}
+      #     nexus_password: ${{ secrets.nexus_password }}
+      #     KEY: ${{ secrets.decryption_key }}
+      #   run: |
+      #     mvn deploy --settings .maven/settings.xml -DskipMunitTests \
+      #     -Dsecure.key="$KEY" \
+      #     -Dmule.env=dev \
+      #     -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
+      #     -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
 
       - name: Deploy to CloudHub 2.0
         if: github.ref == 'refs/heads/main'
