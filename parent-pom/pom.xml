@@ -52,6 +52,9 @@
 					<javaVersion>17</javaVersion>
 					<properties>
 						<secure.key>${decryption.key}</secure.key>
+						<mule.env>${mule.env}</mule.env>
+						<env>${mule.env}</env>
+						<key>${decryption.key}</key>
 					</properties>
 					<!-- Add deployment timeout and skip status check -->
 					<deploymentTimeout>600000</deploymentTimeout>

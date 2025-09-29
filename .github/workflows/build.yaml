@@ -99,6 +99,7 @@ jobs:
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
           -Dsecure.key="$KEY" \
           -Dmule.env=dev \
+          -Ddecryption.key="$KEY" \
           -Danypoint.username="$anypoint_username" \
           -Danypoint.password="$anypoint_password" \
           -Dmule.artifact="target/${{ env.ARTIFACT_NAME }}" \
@@ -114,5 +115,11 @@ jobs:
           echo "☁️  Platform: CloudHub 2.0"
           echo "☕ Runtime: Java 17, Mule 4.9.9"
           echo ""
-          echo "🔍 Check deployment status in Anypoint Platform:"
-          echo "   Runtime Manager → Applications → sw-customers-sapi"
+          echo "🔧 Application Properties should be automatically set:"
+          echo "   - env=dev"
+          echo "   - key=[decryption key from secrets]"
+          echo "   - secure.key=[decryption key from secrets]"  
+          echo "   - mule.env=dev"
+          echo ""
+          echo "🔍 Verify deployment and properties in Anypoint Platform:"
+          echo "   Runtime Manager → Applications → sw-customers-sapi → Properties tab"
