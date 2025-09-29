@@ -77,12 +77,14 @@ jobs:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
           KEY: ${{ secrets.DECRYPTION_KEY }}
+          anypoint_username: ${{ secrets.ANYPOINT_PLATFORM_USERNAME }}
+          anypoint_password: ${{ secrets.ANYPOINT_PLATFORM_PASSWORD }}
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests \
           -Dsecure.key="$KEY" \
           -Dmule.env=dev \
-          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
-          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
+          -Danypoint.username="$anypoint_username" \
+          -Danypoint.password="$anypoint_password"
 
       - name: Deploy to CloudHub 2.0
         if: github.ref == 'refs/heads/main'
@@ -90,10 +92,12 @@ jobs:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
           KEY: ${{ secrets.DECRYPTION_KEY }}
+          anypoint_username: ${{ secrets.ANYPOINT_PLATFORM_USERNAME }}
+          anypoint_password: ${{ secrets.ANYPOINT_PLATFORM_PASSWORD }}
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
           -Dsecure.key="$KEY" \
           -Dmule.env=dev \
-          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
-          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
+          -Danypoint.username="$anypoint_username" \
+          -Danypoint.password="$anypoint_password" \
           -Dmule.artifact="target/${{ env.ARTIFACT_NAME }}"

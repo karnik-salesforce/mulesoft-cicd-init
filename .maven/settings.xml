@@ -13,8 +13,8 @@
     </server>
     <server>
         <id>my-connected-app</id>
-        <username>${client.id}</username>
-        <password>${client.secret}</password>
+        <username>${anypoint.username}</username>
+        <password>${anypoint.password}</password>
     </server>
   </servers>
 
