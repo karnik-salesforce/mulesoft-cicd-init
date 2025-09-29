@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="get-customers-subflow" doc:id="e1f0915c-64d0-4d0f-b9fb-4254031dc48f" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="3e183ae6-06df-4cff-9332-a435427f8d86" message="Get Customers Subflow Started"/>
+		<db:select doc:name="Select From American" doc:id="57e2f03f-d7eb-45c2-8ee9-722db2ba87a2" config-ref="Database_Config" >
+			<db:sql ><![CDATA[Select * FROM american]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Set Payload" doc:id="06f5fdc6-dae9-4843-a0c0-d3729c6cc106" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="747d2433-4754-4364-ba6a-81d14129be5a" message="Get Customers Subflow Ended"/>
+	</sub-flow>
+</mule>
