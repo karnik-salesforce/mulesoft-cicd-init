@@ -17,8 +17,8 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
     <db:config name="Database_Config" doc:name="Database Config" doc:id="187aa373-4908-4292-bf19-7b4d85eb1327" >
 		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${secure::db.password}" database="${db.database}" />
 	</db:config>
-	<configuration-properties doc:name="Configuration properties" doc:id="17fddc20-eca1-42ea-bf37-9062881cb991" file="properties/${env}.yaml" />
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="17eb37d9-9a52-47e7-80f2-023f87932d18" file="properties/${env}-secure.yaml" key="${key}" >
+	<configuration-properties doc:name="Configuration properties" doc:id="17fddc20-eca1-42ea-bf37-9062881cb991" file="properties/${mule.env}.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="17eb37d9-9a52-47e7-80f2-023f87932d18" file="properties/${mule.env}-secure.yaml" key="${secure.key}" >
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>	
 	</mule>

@@ -34,6 +34,7 @@ jobs:
         run: |
           mvn test --settings .maven/settings.xml \
           -Dsecure.key="$KEY" \
+          -Dmule.env=dev \
           -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
           -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
 
@@ -52,6 +53,7 @@ jobs:
         run: |
           mvn clean package --settings .maven/settings.xml -DskipMunitTests \
           -Dsecure.key="$KEY" \
+          -Dmule.env=dev \
           -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
           -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
 
@@ -78,6 +80,7 @@ jobs:
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests \
           -Dsecure.key="$KEY" \
+          -Dmule.env=dev \
           -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
           -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
 
@@ -90,6 +93,7 @@ jobs:
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
           -Dsecure.key="$KEY" \
+          -Dmule.env=dev \
           -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
           -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
           -Dmule.artifact="target/${{ env.ARTIFACT_NAME }}"
