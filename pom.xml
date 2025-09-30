@@ -4,14 +4,14 @@
 
 	<groupId>afc8c2d9-9c76-4829-9129-4dc50f888e95</groupId>
 	<artifactId>sw-customers-sapi</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<packaging>mule-application</packaging>
 	<name>sw-customers-sapi</name>
 
 	<parent>
 		<groupId>afc8c2d9-9c76-4829-9129-4dc50f888e95</groupId>
 		<artifactId>parent-pom</artifactId>
-		<version>1.0.5</version>
+		<version>1.0.6</version>
 		<relativePath>parent-pom/pom.xml</relativePath>
 	</parent>
 
